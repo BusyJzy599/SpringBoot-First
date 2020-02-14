@@ -22,6 +22,7 @@ public class GithubProvider {
                 .build();
         try (Response response = client.newCall(request).execute()) {
             String string=response.body().string();
+            System.out.println(string);//打印一下传回的数据字符串
             String token = string.split("&")[0].split("=")[1];
             return token;
         } catch (Exception e) {
