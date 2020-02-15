@@ -27,6 +27,7 @@ public class GithubProvider {
             return token;
         } catch (Exception e) {
             e.printStackTrace();
+            System.out.println("请求超时");
         }
         return null;
     }
