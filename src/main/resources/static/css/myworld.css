@@ -1,0 +1,16 @@
+body{
+    background-color: #efefef;
+}
+
+.main{
+    margin: 40px;
+    background-color: #FFFFFF;
+}
+.row-publish{
+    padding: 5px;
+}
+
+.btn-publish{
+    float: right;
+    margin-bottom: 15px;
+}

@@ -1,13 +1,14 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>啊喆社区</title>
+    <title>发布--啊喆社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="css/myworld.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -20,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">啊喆社区</a>
+            <a class="navbar-brand" href="/">啊喆社区</a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -54,6 +55,43 @@
         </div>
     </div>
 </nav>
+
+<!-- 发起问题页面-->
+
+<div class="container-fluid main">
+    <div class="row row-publish">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
+            <hr>
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">问题标题：</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="问题标题.." th:value="${title}">
+                </div>
+                <div class="form-group">
+                    <label for="description">问题补充：</label>
+                    <textarea class="form-control" rows="10" cols="30" name="description" id="description" th:text="${description}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tag">添加标签：</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签.." th:value="${tag}">
+                </div>
+                <div class="alert alert-danger" th:if="${error}!=null" th:text="${error}"></div>
+                <button type="submit" class="btn btn-success btn-publish" >发布</button>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <h3>Spring之依赖注入</h3>
+            Spring框架的核心功能之一就是通过依赖注入的方式来管理Bean之间的依赖关系。那么我们今天的主角依赖注入到底有什么神奇之处呢？请往下继续看。
+
+            了解过设计模式的朋友肯定知道工厂模式吧，即所有的对象的创建都交给工厂来完成，是一个典型的面向接口编程。
+            这比直接用new直接创建对象更合理，因为直接用new创建对象，会导致调用者与被调用者的硬编码耦合；
+            而工厂模式，则把责任转向了工厂，形成调用者与被调用者的接口的耦合，这样就避免了类层次的硬编码耦合。
+            这样的工厂模式确实比传统创建对象好很多。但是，正如之前所说的，工厂模式只是把责任推给了工厂，造成了调用者与被调用者工厂的耦合。
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>
