@@ -21,7 +21,7 @@ question表
 -- auto-generated definition
 create table question
 (
-    id            int           null,
+    id            int           AUTO_INCREMENT primary key,
     title         varchar(60)   null,
     description   text          null,
     gmt_create    bigint        null,
