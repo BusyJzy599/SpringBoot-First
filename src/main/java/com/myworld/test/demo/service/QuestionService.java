@@ -1,5 +1,6 @@
 package com.myworld.test.demo.service;
 
+import com.myworld.test.demo.dto.PaginationDTO;
 import com.myworld.test.demo.dto.QuestionDTO;
 import com.myworld.test.demo.mapper.QuestionMapper;
 import com.myworld.test.demo.mapper.UserMapper;
@@ -25,9 +26,13 @@ public class QuestionService {
     private QuestionMapper questionMapper;
 
 
-    public List<QuestionDTO> list() {
-        List <Question> questions=questionMapper.list();
+    public PaginationDTO list(Integer page, Integer size) {
+        //偏移量值
+        Integer offset=size*(page-1);
+
+        List <Question> questions=questionMapper.list(offset,size);
         List<QuestionDTO>questionDTOList=new ArrayList<>();
+        PaginationDTO paginationDTO = new PaginationDTO();
 
         for (Question question : questions) {
             //通过question的creator获取user对象
@@ -43,7 +48,14 @@ public class QuestionService {
             //add进list
             questionDTOList.add(questionDTO);
         }
-        return questionDTOList;
+        //给paginationDTO设置属性
+        paginationDTO.setQuestions(questionDTOList);
+        //问题总数
+        Integer totalCount = questionMapper.count();
+
+        paginationDTO.setPagination(totalCount,page,size);
+
+        return paginationDTO;
     }
 
 
