@@ -27,9 +27,12 @@
                          th:src="${question.user.avatarUrl}"
                          style=" width: 45px; height: 45px;">
                     </a>
+
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <h4 class="media-heading">
+                        <a th:text="${question.title}"  th:href="@{'question/'+${question.id}}"></a>
+                    </h4>
                     <span th:text="${question.description}"></span>
                     <br>
                     <span class="text-desc" style="font-size: 12px;font-weight: normal;color: #999;">

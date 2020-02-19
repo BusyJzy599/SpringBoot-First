@@ -1,17 +1,81 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>个人中心</title>
+    <title th:text="${sectionName}">个人中心</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/myworld.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/myworld.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 <!--引入导航栏-->
 <div th:insert="~{navigation::nav}"></div>
+
+<div class="container-fluid main profile">
+    <div class="row row-publish">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span th:text="${sectionName}"></span></h2>
+            <hr>
+            <!-- 缩略图循环  -->
+            <div class="media" th:each="question:${pagination.questions}">
+                <div class="media-left">
+                    <a>
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}"
+                             style=" width: 45px; height: 45px;">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span>
+                    <br>
+                    <span class="text-desc" style="font-size: 12px;font-weight: normal;color: #999;">
+                        <span th:text="${question.commentCount}"></span> 个评论
+                        •  <span th:text="${question.viewCount}"></span> 次浏览
+                        • <span th:text="${#dates.format(question.gmtCreate,'dd MMMM yyyy')}"></span>
+                        </span>
+                </div>
+            </div>
+
+            <!--页码表-->
+            <nav aria-label="Page navigation" style="float:right">
+                <ul class="pagination">
+                    <li th:if="${pagination.showFirstPage}">
+                        <a href="/profile/questions" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:each="page:${pagination.pages}"><a th:href="@{/profile/questions/(page=${page})}"th:text="${page}"></a></li>
+
+                    <li>
+                        <a th:href="@{/profile/questions/(page=${pagination.countPage})}" th:if="${pagination.showLastPage}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
+        </div>
+
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <!-- 列表组-->
+            <div class="list-group section">
+                <a href="/profile/questions" th:class="${section=='questions'}?'list-group-item active':'list-group-item'">
+                    我的问题：
+                </a>
+                <a href="/profile/replies" th:class="${section=='replies'}?'list-group-item active':'list-group-item'">
+                    最新回复：
+                    <span class="badge">14</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 

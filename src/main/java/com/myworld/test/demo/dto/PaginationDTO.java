@@ -18,7 +18,7 @@ public class PaginationDTO {
     private boolean showNext;
     private boolean showLastPage=false;
 
-    private Integer page=0;
+    private Integer page;
     private List<Integer>pages=new LinkedList<>();
 
     private Integer countPage;
@@ -47,6 +47,10 @@ public class PaginationDTO {
                     pages.add(i+1);
                 }
             }
+        }else{
+            for(int i=0;i<totalPage;i++) {
+                pages.add(i + 1);
+            }
         }
 
 
@@ -55,7 +59,7 @@ public class PaginationDTO {
         //设置显示后一页
         showNext=page==totalPage?false:true;
         //设置显示到达第一页
-        showFirstPage=page<2?false:true;
+        showFirstPage=page<=2?false:true;
         //设置显示到达尾页
         showLastPage=page+2>totalPage?false:true;
 

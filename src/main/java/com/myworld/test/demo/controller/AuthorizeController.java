@@ -53,13 +53,19 @@ public class AuthorizeController {
             //set用户属性
             user.setName(githubUser.getName());
             user.setToken(token);
-            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setAccountId(githubUser.getId());
             user.setBio(githubUser.getBio());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             System.out.println(user.getName());
-            //插入数据库
-            userMapper.insert(user);
+
+            if(userMapper.checkById(user.getAccountId())!=null){
+                userMapper.updateUser(user);
+            }else {
+                //插入数据库
+                userMapper.insert(user);
+            }
+
             //将token标识放入cookie里面
             response.addCookie(new Cookie("token",token));
             //登陆成功,写session和cookie
@@ -74,5 +80,18 @@ public class AuthorizeController {
             //登陆失败
             return "redirect:/";
         }
+    }
+
+    //退出登录
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request,
+                         HttpServletResponse response){
+        //移除session
+        request.getSession().removeAttribute("user");
+        Cookie cookie = new Cookie("token",null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+
+        return "redirect:/";
     }
 }

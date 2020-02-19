@@ -1,13 +1,16 @@
 package com.myworld.test.demo.controller;
 
+import com.myworld.test.demo.dto.QuestionDTO;
 import com.myworld.test.demo.mapper.QuestionMapper;
 import com.myworld.test.demo.mapper.UserMapper;
 import com.myworld.test.demo.model.Question;
 import com.myworld.test.demo.model.User;
+import com.myworld.test.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,10 +22,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class PublishController {
+
     @Autowired
-    private QuestionMapper questionMapper;
-    @Autowired
-    private UserMapper userMapper;
+    private QuestionService questionService;
+
 
     @GetMapping("/publish")
     public String publish(){
@@ -34,6 +37,7 @@ public class PublishController {
             @RequestParam("title")String title,
             @RequestParam("description")String description,
             @RequestParam("tag")String tag,
+            @RequestParam("id")Integer id,
             HttpServletRequest request,
             Model model
     ){
@@ -49,29 +53,38 @@ public class PublishController {
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
 
-        User user = null;
-        Cookie[] cookies = request.getCookies();
-        if(cookies!=null) {
-            //判断cookie是否为空
-            for (Cookie cookie : cookies) {
-                String token = cookie.getValue();
-                user=userMapper.findByToken(token);
-                if(user!=null){
-                    request.getSession().setAttribute("user",user);
-                }
-                break;
-            }
-
-                question.setCreator(user.getId());
-                question.setGmtCreate(System.currentTimeMillis());
-                question.setGmtModified(question.getGmtCreate());
-                questionMapper.create(question);
-                return "redirect:/";
-
+        User user = (User)request.getSession().getAttribute("user");
+        if(user==null){
+            //未登录则被拦截
+            return "redirect:/";
         }else {
-            model.addAttribute("error","用户未登录");
+            //登录则返回当前
+
+            //----------------------------
+            //设置creator
+            question.setCreator(user.getAccountId());
+            question.setId(id);
+
+            questionService.createOrUpdate(question);
+
+            //---------------------------
             return "/publish";
         }
+    }
+
+
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name="id")Integer id,
+                       Model model){
+        QuestionDTO question = questionService.getById(id);
+        //存入model
+        model.addAttribute("title",question.getTitle());
+        model.addAttribute("description",question.getDescription());
+        model.addAttribute("tag",question.getTag());
+        model.addAttribute("id",question.getId());
+
+
+        return "publish";
 
     }
 

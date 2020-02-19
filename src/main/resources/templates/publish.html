@@ -3,10 +3,10 @@
 <head>
     <title>发布--啊喆社区</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="css/myworld.css">
-    <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用--></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/myworld.css">
+    <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -20,6 +20,7 @@
             <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
             <form action="/publish" method="post">
+                <input type="hidden" name="id" th:value="${id}">
                 <div class="form-group">
                     <label for="title">问题标题：</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题.." th:value="${title}">
@@ -32,9 +33,14 @@
                     <label for="tag">添加标签：</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签.." th:value="${tag}">
                 </div>
-                <div class="alert alert-danger" th:if="${error}!=null" th:text="${error}"></div>
-                <button type="submit" class="btn btn-success btn-publish" >发布</button>
+
+                <button type="submit" class="btn btn-success btn-publish"data-toggle="modal" data-target=".bs-example-modal-lg">发布</button>
+
             </form>
+
+            <!-- Small modal -->
+
+
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>Spring之依赖注入</h3>
