@@ -4,6 +4,7 @@ import com.myworld.test.demo.dto.AccessTokenDTO;
 import com.myworld.test.demo.dto.GithubUser;
 import com.myworld.test.demo.mapper.UserMapper;
 import com.myworld.test.demo.model.User;
+import com.myworld.test.demo.model.UserExample;
 import com.myworld.test.demo.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.*;
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -55,14 +57,23 @@ public class AuthorizeController {
             user.setToken(token);
             user.setAccountId(githubUser.getId());
             user.setBio(githubUser.getBio());
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
-            System.out.println(user.getName());
 
-            if(userMapper.checkById(user.getAccountId())!=null){
-                userMapper.updateUser(user);
+            //generator写法
+            UserExample userExample = new UserExample();
+            userExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+            List<User> users = userMapper.selectByExample(userExample);
+
+            if(users.size()!=0){
+                user.setGmtModified(System.currentTimeMillis());
+                UserExample updateExample = new UserExample();
+                updateExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
+                userMapper.updateByExampleSelective(user,updateExample);
+
+                //userMapper.updateUser(user);
             }else {
                 //插入数据库
+                user.setGmtCreate(System.currentTimeMillis());
+                user.setGmtModified(user.getGmtCreate());
                 userMapper.insert(user);
             }
 
