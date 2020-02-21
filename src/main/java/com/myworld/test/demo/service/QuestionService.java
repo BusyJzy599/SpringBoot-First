@@ -144,6 +144,7 @@ public class QuestionService {
         question.setCommentCount(0);
         question.setLikeCount(0);
         question.setViewCount(0);
+        question.setCommentCount(0);
         if(question.getId()==null){
             //创建
             question.setGmtCreate(System.currentTimeMillis());
