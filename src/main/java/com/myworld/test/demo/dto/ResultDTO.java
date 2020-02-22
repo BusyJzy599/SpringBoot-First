@@ -20,9 +20,10 @@ public class ResultDTO {
     }
 
     public static ResultDTO errorOf(CustomizeErrorCode errorCode) {
+        //重载并赋值
         return errorOf(errorCode.getCode(),errorCode.getMessage());
     }
-
+    //重载
     public static ResultDTO errorOf(CustomizeException ex) {
         return errorOf(ex.getCode(), ex.getMessage());
     }

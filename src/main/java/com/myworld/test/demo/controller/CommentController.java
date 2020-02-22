@@ -1,6 +1,6 @@
 package com.myworld.test.demo.controller;
 
-import com.myworld.test.demo.dto.CommentDTO;
+import com.myworld.test.demo.dto.CommentCreateDTO;
 import com.myworld.test.demo.dto.ResultDTO;
 import com.myworld.test.demo.exception.CustomizeErrorCode;
 import com.myworld.test.demo.model.Comment;
@@ -27,22 +27,25 @@ public class CommentController {
 
     @ResponseBody
     @RequestMapping(value = "/comment",method = RequestMethod.POST)
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpServletRequest request){
-       /* User user = (User)request.getSession().getAttribute("user");
+        User user = (User)request.getSession().getAttribute("user");
         if(user==null){
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
-        }*/
+        }
+        if(commentCreateDTO==null||commentCreateDTO.getContent().isEmpty()){
+            return ResultDTO.errorOf(CustomizeErrorCode.COMMENT_IS_EMPTY);
+        }
 
         Comment comment=new Comment();
         //set评论的相关属性
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtCreate(System.currentTimeMillis());
         comment.setGmtModified(comment.getGmtCreate());
-        /*comment.setCommentator(user.getAccountId());*/
-        comment.setCommentator(1);
+        comment.setCommentator(user.getAccountId());
+        /*comment.setCommentator(1);*/
         comment.setLikeCount(0);
 
         commentService.insert(comment);

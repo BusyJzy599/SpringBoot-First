@@ -29,7 +29,7 @@ public class CustomizeErrorController implements ErrorController {
 
         if(status.is4xxClientError()){
             //用户端错误
-            model.addAttribute("message","测试已错");
+            model.addAttribute("message","你请求的有错误，要不换个姿势？");
         }else if(status.is5xxServerError()){
             //服务器端错误
             model.addAttribute("message","服务器冒烟啦，请稍后再试！！！");

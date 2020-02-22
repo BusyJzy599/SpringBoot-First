@@ -12,7 +12,7 @@ body{
 
 .btn-publish{
     float: right;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .text-desc{
@@ -22,6 +22,7 @@ body{
 }
 .profile .section{
     margin-top: 15px;
+
 }
 .menu-color{
     color: #999;
@@ -29,4 +30,25 @@ body{
 }
 .jumbotron{
     margin: 50px;
+}
+.media-body-ext{
+    padding-top: 12px;
+}
+.comment{
+    /*上下10，左右0*/
+    margin:10px 0;
+}
+.btn-myworld{
+    margin-right: 5px;
+    font-size: 15px;
+    color: #999999;
+    margin-top: 5px;
+}
+.btn-myworld:hover{
+    color: #3881a4;
+}
+
+.comments{
+    margin-bottom: 15px;
+    border-bottom: 1px solid #999999;
 }

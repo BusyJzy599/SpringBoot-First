@@ -9,10 +9,22 @@
     <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+
+<script type="application/javascript">
+    /*页面加载完成时调用此方法*/
+    window.onload=function () {
+        let closable  = window.localStorage.getItem("closable");
+        if(closable){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+
+</script>
 <body>
 <!--引入导航栏-->
 <div th:insert="~{navigation::nav}"></div>
-
+<!--主界面-->
 <div class="container-fluid main">
     <div class="row row-publish">
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
@@ -38,7 +50,7 @@
                     <span class="text-desc" style="font-size: 12px;font-weight: normal;color: #999;">
                         <span th:text="${question.commentCount}"></span> 个评论
                         •  <span th:text="${question.viewCount}"></span> 次浏览
-                        • <span th:text="${#dates.format(question.gmtCreate,'dd MMMM yyyy')}"></span>
+                        • <span th:text="${#dates.format(question.gmtCreate,'yyy-MM-dd')}"></span>
                     </span>
                 </div><hr>
             </div>
@@ -65,10 +77,22 @@
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <h3>热门话题</h3>
+            Features
+            Create stand-alone Spring applications
 
+            Embed Tomcat, Jetty or Undertow directly (no need to deploy WAR files)
+
+            Provide opinionated 'starter' dependencies to simplify your build configuration
+
+            Automatically configure Spring and 3rd party libraries whenever possible
+
+            Provide production-ready features such as metrics, health checks and externalized configuration
+
+            Absolutely no code generation and no requirement for XML configuration
         </div>
     </div>
 </div>
 
 </body>
+
 </html>

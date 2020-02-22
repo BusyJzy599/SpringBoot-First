@@ -83,7 +83,6 @@ public class PublishController {
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());
 
-
         return "publish";
 
     }
