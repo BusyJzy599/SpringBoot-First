@@ -1,5 +1,6 @@
 package com.myworld.test.demo.service;
 
+import com.mysql.jdbc.StringUtils;
 import com.myworld.test.demo.dto.PaginationDTO;
 import com.myworld.test.demo.dto.QuestionDTO;
 import com.myworld.test.demo.exception.CustomizeErrorCode;
@@ -18,6 +19,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 组装user和question
@@ -172,5 +176,25 @@ public class QuestionService {
         record.setViewCount(1);
         questionExtMapper.incView(record);
        /* questionMapper.updateByExampleSelective(updateQuestion,questionExample);*/
+    }
+
+    public List<QuestionDTO> selectRelated(QuestionDTO questionDTO) {
+        if(questionDTO.getTag().isEmpty()){
+            return new ArrayList<>();
+        }
+        List<String> tags = StringUtils.split(questionDTO.getTag(), ",",true);
+        String regexpTag=tags.stream().collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(questionDTO.getId());
+        question.setTag(questionDTO.getTag());
+
+        List<Question> questions = questionExtMapper.selectRelated(question);
+        List<QuestionDTO>questionsDTOs=questions.stream().map(q->{
+            QuestionDTO questionDTO1=new QuestionDTO();
+            BeanUtils.copyProperties(q,questionDTO1);
+            return questionDTO1;
+        }).collect(Collectors.toList());
+
+        return questionsDTOs;
     }
 }

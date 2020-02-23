@@ -1,19 +1,19 @@
 package com.myworld.test.demo.controller;
 
 import com.myworld.test.demo.dto.CommentCreateDTO;
+import com.myworld.test.demo.dto.CommentDTO;
 import com.myworld.test.demo.dto.ResultDTO;
+import com.myworld.test.demo.enums.CommentTypeEnum;
 import com.myworld.test.demo.exception.CustomizeErrorCode;
 import com.myworld.test.demo.model.Comment;
 import com.myworld.test.demo.model.User;
 import com.myworld.test.demo.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  *
@@ -51,5 +51,13 @@ public class CommentController {
         commentService.insert(comment);
 
         return ResultDTO.okOf();
+    }
+
+    /*获取二级评论*/
+    @ResponseBody
+    @RequestMapping(value = "/comment/{id}",method = RequestMethod.POST)
+    public ResultDTO comments(@PathVariable(name = "id")Integer id){
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 }

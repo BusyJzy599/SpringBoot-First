@@ -12,7 +12,7 @@ body{
 
 .btn-publish{
     float: right;
-    margin-bottom: 10px;
+    margin:10px 0;
 }
 
 .text-desc{
@@ -32,23 +32,41 @@ body{
     margin: 50px;
 }
 .media-body-ext{
-    padding-top: 12px;
+    padding-top: 10px;
 }
 .comment{
     /*上下10，左右0*/
     margin:10px 0;
 }
-.btn-myworld{
+.menu{
+    color: #999;
+    margin-top: 5px;
+}
+.menu .btn-myworld{
     margin-right: 5px;
     font-size: 15px;
     color: #999999;
     margin-top: 5px;
 }
-.btn-myworld:hover{
+
+.menu .btn-myworld:hover{
+    color: #3881a4;
+}
+
+.menu .active{
     color: #3881a4;
 }
 
 .comments{
     margin-bottom: 15px;
     border-bottom: 1px solid #999999;
+}
+.sub-comments{
+    border-radius: 5px;
+    margin-top: 10px;
+    border:1px solid #eee;
+    padding-top: 15px;
+}
+.question-tag{
+    margin-right: 5px;
 }

@@ -4,10 +4,7 @@ import com.myworld.test.demo.dto.CommentDTO;
 import com.myworld.test.demo.enums.CommentTypeEnum;
 import com.myworld.test.demo.exception.CustomizeErrorCode;
 import com.myworld.test.demo.exception.CustomizeException;
-import com.myworld.test.demo.mapper.CommentMapper;
-import com.myworld.test.demo.mapper.QuestionExtMapper;
-import com.myworld.test.demo.mapper.QuestionMapper;
-import com.myworld.test.demo.mapper.UserMapper;
+import com.myworld.test.demo.mapper.*;
 import com.myworld.test.demo.model.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,8 @@ public class CommentService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private CommentExtMapper commentExtMapper;
     //插入评论并处理异常
     @Transactional
     public void insert(Comment comment) {
@@ -53,7 +52,13 @@ public class CommentService {
             if(dbComment==null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             }
+            comment.setCommentCount(0);
             commentMapper.insert(comment);
+            //增加评论的回复数
+            Comment parentComment = new Comment();
+            parentComment.setId(comment.getParentId());
+            parentComment.setCommentCount(1);
+            commentExtMapper.incCommentCount(parentComment);
         }else {
             //回复问题
             Question question = questionMapper.selectByPrimaryKey(comment.getParentId());
@@ -68,11 +73,11 @@ public class CommentService {
     }
 
     //用于取出问题回复信息列表
-    public List<CommentDTO> listByQuestionId(Integer id) {
+    public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentIdEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
         commentExample.setOrderByClause("gmt_create desc");
         //获取所有的评论信息
         List<Comment> comments = commentMapper.selectByExample(commentExample);

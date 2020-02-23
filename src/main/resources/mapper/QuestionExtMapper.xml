@@ -29,4 +29,8 @@
         where id=#{id}
     </update>
 
+    <select id="selectRelated"  parameterType="com.myworld.test.demo.model.Question" resultMap="BaseResultMap">
+            select * from question where id!=#{id} and tag regexp #{tag}
+    </select>
+
 </mapper>
