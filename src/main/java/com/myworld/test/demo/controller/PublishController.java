@@ -1,5 +1,6 @@
 package com.myworld.test.demo.controller;
 
+import com.myworld.test.demo.cache.TagCache;
 import com.myworld.test.demo.dto.QuestionDTO;
 import com.myworld.test.demo.mapper.QuestionMapper;
 import com.myworld.test.demo.mapper.UserMapper;
@@ -28,7 +29,8 @@ public class PublishController {
 
 
     @GetMapping("/publish")
-    public String publish(){
+    public String publish(Model model){
+        model.addAttribute("tags", TagCache.get());
         return "publish";
     }
 
@@ -52,6 +54,7 @@ public class PublishController {
         model.addAttribute("title",title);
         model.addAttribute("description",description);
         model.addAttribute("tag",tag);
+        model.addAttribute("tags", TagCache.get());
 
         User user = (User)request.getSession().getAttribute("user");
         if(user==null){
@@ -82,8 +85,9 @@ public class PublishController {
         model.addAttribute("description",question.getDescription());
         model.addAttribute("tag",question.getTag());
         model.addAttribute("id",question.getId());
+        model.addAttribute("tags", TagCache.get());
 
-        return "redirect:/";
+        return "publish";
 
     }
 

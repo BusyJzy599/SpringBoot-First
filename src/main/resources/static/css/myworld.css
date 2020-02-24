@@ -70,3 +70,13 @@ body{
 .question-tag{
     margin-right: 5px;
 }
+
+.select-tag{
+    display: none;
+}
+.tag-icon{
+    margin-top: 10px;
+}
+.tags-icon{
+    margin-right: 10px;
+}

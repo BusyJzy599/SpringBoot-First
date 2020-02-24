@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="/css/myworld.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <script src="/js/myworld.js"></script>
 </head>
 <body>
 <!--引入导航栏-->
@@ -34,7 +35,26 @@
                 <div class="form-group">
                     <label for="tag">添加标签：</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签.." autocomplete="off"
-                           th:value="${tag}">
+                           th:value="${tag}" onclick="showSelectTag()">
+                    <!--预定义标签选项-->
+                    <div id="select-tag" class="select-tag">
+                        <!-- 分类 -->
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectCategory,selectCategoryStat:${tags}"
+                                th:class="${selectCategoryStat.first?'active':''}">
+                                <a th:href="${'#'+selectCategory.categoryName}" aria-controls="home" role="tab" data-toggle="tab" th:text="${selectCategory.categoryName}"></a>
+                            </li>
+                        </ul>
+                        <!-- 具体标签-->
+                        <div class="tab-content">
+                            <div role="tabpanel" th:id="${selectCategory.categoryName}" th:each="selectCategory:${tags}"
+                                th:class="${selectCategoryStat.first?'tab-pane active':'tab-pane'}">
+                                <span  class="label label-info tags-icon" th:each="selectTag:${selectCategory.tags}">
+                                    <span class="glyphicon glyphicon-tags tag-icon" onclick="selectTag(this)" th:data-tag="${selectTag}" th:text="${selectTag}"></span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <button type="submit" class="btn btn-success btn-publish"data-toggle="modal" data-target=".bs-example-modal-lg">发布</button>
