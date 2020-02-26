@@ -3,6 +3,7 @@ package com.myworld.test.demo.interceptor;
 import com.myworld.test.demo.mapper.UserMapper;
 import com.myworld.test.demo.model.User;
 import com.myworld.test.demo.model.UserExample;
+import com.myworld.test.demo.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,6 +19,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -35,6 +39,8 @@ public class SessionInterceptor implements HandlerInterceptor {
                     if (users.size() != 0) {
                         //如果存在则写入session
                         request.getSession().setAttribute("user", users.get(0));
+                        Integer unreadCount=notificationService.unreadCount(users.get(0).getAccountId());
+                        request.getSession().setAttribute("unreadCount",unreadCount);
                     }
                     break;
                 }

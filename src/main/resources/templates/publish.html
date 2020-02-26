@@ -7,8 +7,10 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="/css/myworld.css">
     <script src="http://code.jquery.com/jquery-latest.js"></script><!-- 在线的jquery文件引用-->
+    <script src="../static/js/jquery.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
-    <script src="/js/myworld.js"></script>
+    <script src="/js/myworld.js" type="application/javascript"></script>
+
 </head>
 <body>
 <!--引入导航栏-->
@@ -22,16 +24,19 @@
             <hr>
             <form action="/publish" method="post">
                 <input type="hidden" name="id" th:value="${id}">
+                <!--标题-->
                 <div class="form-group">
                     <label for="title">问题标题：</label>
                     <input type="text" class="form-control" id="title" name="title" placeholder="问题标题.." autocomplete="off"
                            th:value="${title}">
                 </div>
-                <div class="form-group">
+                <!--内容-->
+                <div class="form-group" >
                     <label for="description">问题补充：</label>
                     <textarea class="form-control" rows="10" cols="30" name="description" id="description" autocomplete="off"
-                              th:text="${description}"></textarea>
+                              th:text="${description}" ></textarea>
                 </div>
+                <!--标签-->
                 <div class="form-group">
                     <label for="tag">添加标签：</label>
                     <input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签.." autocomplete="off"

@@ -80,3 +80,6 @@ body{
 .tags-icon{
     margin-right: 10px;
 }
+.badge{
+    background-color: rgba(196, 2, 59, 0.67);
+}

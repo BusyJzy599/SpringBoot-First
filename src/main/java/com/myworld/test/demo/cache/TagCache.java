@@ -2,16 +2,15 @@ package com.myworld.test.demo.cache;
 
 import com.myworld.test.demo.dto.TagDTO;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- *
+ *标签类
  */
 public class TagCache {
-
+    //返回标签集合
     public static List<TagDTO>get(){
         List<TagDTO>tagDTOS=new ArrayList<>();
         //开发语言板块

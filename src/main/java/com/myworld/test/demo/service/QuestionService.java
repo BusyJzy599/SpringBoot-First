@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringJoiner;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -67,7 +65,7 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
         //给paginationDTO设置属性
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         //问题总数
         Integer totalCount = (int)questionMapper.countByExample(new QuestionExample());
         //Integer totalCount = questionMapper.count();
@@ -107,7 +105,7 @@ public class QuestionService {
             questionDTOList.add(questionDTO);
         }
         //给paginationDTO设置属性
-        paginationDTO.setQuestions(questionDTOList);
+        paginationDTO.setData(questionDTOList);
         //问题总数
         QuestionExample example = new QuestionExample();
         example.createCriteria().andCreatorEqualTo(userId);
@@ -165,13 +163,7 @@ public class QuestionService {
     }
 
     public void incView(Integer id) {
-       /* Question question = questionMapper.selectByPrimaryKey(id);
-        Question updateQuestion=new Question();
-        updateQuestion.setViewCount(question.getViewCount()+1);
-        QuestionExample questionExample=new QuestionExample();
-        questionExample.createCriteria().andIdEqualTo(id);
-*/
-        Question record = new Question();
+      Question record = new Question();
         record.setId(id);
         record.setViewCount(1);
         questionExtMapper.incView(record);
