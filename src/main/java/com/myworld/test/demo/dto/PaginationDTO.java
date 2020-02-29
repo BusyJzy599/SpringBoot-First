@@ -12,17 +12,18 @@ import java.util.List;
  */
 @Data
 public class PaginationDTO <T>{
-    private List<T> data;
-    private boolean showPrevious;
-    private boolean showFirstPage=false;
-    private boolean showNext;
-    private boolean showLastPage=false;
+    private List<T> data;               //当前页的数据
+    private boolean showPrevious;       //是否显示前一页
+    private boolean showFirstPage=false;//是否显示首页
+    private boolean showNext;           //是否显示后一页
+    private boolean showLastPage=false; //是否显示最后一页
 
-    private Integer page;
-    private List<Integer>pages=new LinkedList<>();
+    private Integer page;               //当前页数
+    private List<Integer>pages=new LinkedList<>();//显示的页码数
 
-    private Integer countPage;
+    private Integer countPage;          //总页数
 
+    //设置相关属性
     public void setPagination(Integer totalCount, Integer page, Integer size) {
         Integer totalPage=0;
         //判断有多少页并赋值

@@ -157,7 +157,7 @@ public class QuestionService {
             question.setGmtModified(System.currentTimeMillis());
 
            int updated= questionMapper.updateByPrimaryKeySelective(question);
-           if(updated!=1)
+           if(updated==-1)
                throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
     }

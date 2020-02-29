@@ -9,6 +9,7 @@ import com.myworld.test.demo.provider.GithubProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.*;
@@ -50,7 +51,7 @@ public class AuthorizeController {
 
         if(githubUser!=null){
             User user=new User();
-            //token作为识别对象
+            //token作为识别对象,定义一个识别cookie
             String token=UUID.randomUUID().toString();
             //set用户属性
             user.setName(githubUser.getName());
@@ -64,12 +65,12 @@ public class AuthorizeController {
             List<User> users = userMapper.selectByExample(userExample);
 
             if(users.size()!=0){
+                //如果已经存在，则修改时间
                 user.setGmtModified(System.currentTimeMillis());
                 UserExample updateExample = new UserExample();
                 updateExample.createCriteria().andAccountIdEqualTo(user.getAccountId());
                 userMapper.updateByExampleSelective(user,updateExample);
 
-                //userMapper.updateUser(user);
             }else {
                 //插入数据库
                 user.setGmtCreate(System.currentTimeMillis());
@@ -79,13 +80,8 @@ public class AuthorizeController {
 
             //将token标识放入cookie里面
             response.addCookie(new Cookie("token",token));
-            //登陆成功,写session和cookie
-
-            /**
-            //把user对象放在session里面
+            //登陆成功,写session
             request.getSession().setAttribute("user",githubUser);
-            //用redirect将前缀地址删掉并且重定向到index页面
-             */
             return "redirect:/";
         }else{
             //登陆失败

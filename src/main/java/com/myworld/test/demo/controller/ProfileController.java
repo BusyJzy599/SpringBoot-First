@@ -1,9 +1,6 @@
 package com.myworld.test.demo.controller;
 
-import com.myworld.test.demo.dto.NotificationDTO;
 import com.myworld.test.demo.dto.PaginationDTO;
-import com.myworld.test.demo.mapper.UserMapper;
-import com.myworld.test.demo.model.Notification;
 import com.myworld.test.demo.model.User;
 import com.myworld.test.demo.service.NotificationService;
 import com.myworld.test.demo.service.QuestionService;
@@ -14,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 /**
