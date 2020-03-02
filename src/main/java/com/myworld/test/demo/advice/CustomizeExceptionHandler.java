@@ -20,15 +20,15 @@ import java.io.PrintWriter;
 @ControllerAdvice
 public class CustomizeExceptionHandler {
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)      //抓取异常
     Object handle(Throwable ex,
-                  Model model,
+                  Model model,              //用于添加错误页面信息
                   HttpServletRequest request,
                   HttpServletResponse response){
 
         String contentType=request.getContentType();
         if("application/json".equals(contentType)){
-            ResultDTO resultDTO;
+                ResultDTO resultDTO;
             //返回json
             if(ex instanceof CustomizeException){
                 resultDTO= ResultDTO.errorOf((CustomizeException)ex);
@@ -36,15 +36,15 @@ public class CustomizeExceptionHandler {
                 resultDTO=ResultDTO.errorOf(CustomizeErrorCode.SYSTEM_ERROR);
             }
             try {
+                //进行输出流的传输
                 response.setContentType("application/json");
                 response.setStatus(200);
                 response.setCharacterEncoding("UTF-8");
                 PrintWriter writer = response.getWriter();
+                //将resultDTO写到前端
                 writer.write(JSON.toJSONString(resultDTO));
                 writer.close();
-            } catch (IOException e) {
-
-            }
+            } catch (IOException e) {}
             return null;
         }else {
             //错误页面跳转
@@ -53,6 +53,7 @@ public class CustomizeExceptionHandler {
             }else {
                 model.addAttribute("message",CustomizeErrorCode.SYSTEM_ERROR.getMessage());
             }
+            //返回error页面
             return new ModelAndView("error");
         }
     }

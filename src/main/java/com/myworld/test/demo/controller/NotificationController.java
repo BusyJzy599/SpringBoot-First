@@ -29,7 +29,8 @@ public class NotificationController {
         if(user==null){
             return "redirect:/";
         }
-        NotificationDTO notificationDTO= notificationService.read(id,user);
+        /*设置已读*/
+        NotificationDTO notificationDTO= notificationService.read(id);
 
         if(NotificationTypeEnum.REPLY_COMMENT.getType()==notificationDTO.getType()){
             //回复评论

@@ -5,39 +5,41 @@
  * @param content
  */
 
-function comment2targetId(targetId,type,content) {
+ function comment2targetId(targetId,type,content) {
 
-    $.ajax({
-        type: "POST",
-        url: "/comment",
-        contentType:"application/json",
-        data:JSON.stringify( {
-            "parentId":targetId,
-            "content":content,
-            "type":type
-        }),
-        success: function (response) {
-            if(response.code==200){
-                //$("#comment_section").hide();
-                location.reload();
-            }else {
-                if(response.code==2003){
-                    //如果未登录
-                    var isAccept = confirm(response.message);
-                    if(isAccept){
-                        window.open("https://github.com/login/oauth/authorize?client_id=6cadd4ad60f1467acede&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
-                        //自定义localStorag对象
-                        window.localStorage.setItem("closable",true);
-                    }
-
-                }else {
-                    alert(response.message);
+    /*直接用ajax返回服务器进行解析*/
+$.ajax({
+    type: "POST",
+    url: "/comment",
+    contentType:"application/json",
+    /*获取的数据*/
+    data:JSON.stringify( {
+        "parentId":targetId,
+        "content":content,
+        "type":type
+    }),
+    success: function (response) {
+        if(response.code==200){
+            //$("#comment_section").hide();
+            location.reload();
+        }else {
+            if(response.code==2003){
+                //如果未登录
+                var isAccept = confirm(response.message);
+                if(isAccept){
+                    window.open("https://github.com/login/oauth/authorize?client_id=6cadd4ad60f1467acede&redirect_uri=http://localhost:8887/callback&scope=user&state=1");
+                    //自定义localStorag对象
+                    window.localStorage.setItem("closable",true);
                 }
+
+            }else {
+                alert(response.message);
             }
-            console.log(response);
-        },
-        dataType: "json"
-    });
+        }
+        console.log(response);
+    },
+    dataType: "json"
+});
 }
 
 
@@ -87,7 +89,9 @@ function collapseComments(e) {
             e.setAttribute("data-collapse","in");
             e.classList.add("active");
         }else{
+           /*post请求到服务器*/
             $.post("/comment/"+id, function(data) {
+                /*data是服务器端返回的ResultDto对象*/
                 $.each(data.data.reverse(),function (index,comment) {
                     console.log(comment);
                     //拼接HTML代码

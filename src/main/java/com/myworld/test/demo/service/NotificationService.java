@@ -62,6 +62,7 @@ public class NotificationService {
         return paginationDTO;
     }
 
+    /*未读消息数量*/
     public Integer unreadCount(Integer accountId) {
 
         NotificationExample notificationExample = new NotificationExample();
@@ -71,8 +72,8 @@ public class NotificationService {
         Integer count = (int)notificationMapper.countByExample(notificationExample);
         return count;
     }
-
-    public NotificationDTO read(Integer id, User user) {
+    /*设置消息已读*/
+    public NotificationDTO read(Integer id) {
         Notification notification = notificationMapper.selectByPrimaryKey(id);
         if(notification==null){
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);

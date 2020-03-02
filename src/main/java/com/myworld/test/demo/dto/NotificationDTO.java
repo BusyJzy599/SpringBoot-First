@@ -1,6 +1,5 @@
 package com.myworld.test.demo.dto;
 
-import com.myworld.test.demo.model.User;
 import lombok.Data;
 
 @Data
